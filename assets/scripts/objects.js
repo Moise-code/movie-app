@@ -63,46 +63,80 @@
 // lets first target the inputs
 const addMovieBtn = document.querySelector('#add-movie-btn');
 const searchMovieBtn = document.querySelector('#add-movie-btn');
+const formInputs = document.querySelector('#user-input');
+const inputs = formInputs.querySelectorAll('input');
+console.log(inputs);
 // lets create the array to store a movie object
 const movies = [];
 
 
 // now let create the function to get the user inputs
 
-const addMovieHandler = () =>{
+const addMovieHandler = () => {
   // let target the inputs first
-  const movieTitle = document.querySelector('#title').value;
-  const extraName = document.querySelector('#extra-name').value;
-  const extraValue = document.querySelector('#extra-value').value;
-  
+  let movieTitle = document.querySelector('#title').value;
+  let extraName = document.querySelector('#extra-name').value;
+  let extraValue = document.querySelector('#extra-value').value;
+
   // lets check the inputs in case they are empty then we return
 
-  if(movieTitle === 0|| extraName === 0 || extraValue === 0){
+  if (movieTitle.trim() === '' || extraName === '' || extraValue === '') {
     return;
   }
-// since we have the array to store our object nw we can create the object to store the movie
+  // since we have the array to store our object nw we can create the object to store the movie
 
-const newMovie = {
-  info:{
-  title:movieTitle,
-  [extraName]: extraValue
-  },
-  id:Math.random()
-}
-movies.push(newMovie); // here we are pushing the movie object in the array movies we created.
-console.log(newMovie); // here we are consol logging the object created based on the movie.
+  const newMovie = {
+    info: {
+      title: movieTitle,
+      [extraName]: extraValue
+    },
+    id: Math.random()
+  }
+  movies.push(newMovie); // here we are pushing the movie object in the array movies we created.
+  renderMovieHandler();
+  inputs.forEach((input) =>{
+    input.value = '';
+  })
+  console.log(newMovie); // here we are consol logging the object created based on the movie.
 }
 
+// lets create a function to reset the input values after adding the movie to the Ui
+const resetInputs = () =>{
+
+}
 // lets now create the function to add the values to the user interface
-const renderMovieHandler = () =>{
-  // lets first target the ul where I will append the list of movies.
-  const movieList = document.querySelector('#movie-list');
-  // lets create a li tag that will hold the movie and its description.
-  const MovieElement = document.createElement('li');
-  MovieElement.textContent = movies.info.title;
-  movieList.innerHTML = '';
-  movieList.prepend(MovieElement);
 
+const renderMovieHandler = (filter='') =>{
+  const movieList = document.querySelector('#movie-list');
+  if(movies.length === 0){
+    movieList.classList.remove('visible')
+    return
+  } else{
+    movieList.classList.add('visible');
+  }
+  movieList.innerHtml = '';
+
+  // lets create  a movieContent variable to hold all the contents of the added movie.
+  
+  movies.forEach((movie) =>{
+    const movieElement = document.createElement('li');
+    let movieContent = movie.info.title + ' - ';
+    for(const key in movie.info){
+      if(key != 'title'){
+        movieContent+= `${key}: ${movie.info[key]}`;
+      }
+    }
+  movieElement.textContent = movieContent;
+  movieList.prepend(movieElement);
+})
 }
+
+//lets add the function to filter the movie according to what the user searched in the filter input
+
+const filteredMovieHandler = () =>{
+  const filterInput = document.querySelector('#filter-title').value;
+  renderMovieHandler(filterInput);
+}
+
 addMovieBtn.addEventListener('click', addMovieHandler);
 
