@@ -21,7 +21,7 @@ const renderMovies = (filter ='') =>{
 
   filteredMovies.forEach((movie) =>{
     const movieEl = document.createElement('li');
-    let movieContent = movie.info.title + ' - ';
+    let movieContent = movie.getFormattedTitle()+ ' - ';
     for(const key in movie.info){
       if(key !== 'title'){
         movieContent += `${key} ${movie.info[key]}`;
@@ -49,7 +49,10 @@ const addMovieHandler = () =>{
     title,
     [extraName]: extraValue
   },
-  id:Math.random()
+  id:Math.random(),
+  getFormattedTitle: function() {
+    return this.info.title.toUpperCase(); 
+  }
   }
   movies.push(newMovie);
   renderMovies();
