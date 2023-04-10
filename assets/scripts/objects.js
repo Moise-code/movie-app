@@ -68,3 +68,14 @@ const searchMovieHandler = () =>{
 addMovieBtn.addEventListener('click', addMovieHandler);
 searchBtn.addEventListener('click', searchMovieHandler);
 
+
+const members = {teamName: 'The red Stars',
+people:['Moise','Fred'],
+getTeamMembersName(){
+  this.people.forEach(person =>{
+    console.log(person +'--'+ this.teamName);
+  })
+}}
+console.log(members.getTeamMembersName());
+
+// the above above codes shows the ability of the arrow function with the this keyword.
